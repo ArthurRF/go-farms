@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: farmuser
+      POSTGRES_PASSWORD: farmpassword
+      POSTGRES_DB: farmdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  farm-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: farm-api
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: farmuser
+      DB_PASSWORD: farmpassword
+      DB_NAME: farmdb
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
