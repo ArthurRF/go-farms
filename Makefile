@@ -6,3 +6,7 @@ dev:
 
 m-apply:
 	atlas migrate hash; atlas migrate apply --url ${DB_URL}
+
+wire:
+	cd internal/injector && wire && cd ../..
+	

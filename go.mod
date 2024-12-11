@@ -6,6 +6,7 @@ require (
 	ariga.io/atlas-provider-gorm v0.5.0
 	github.com/go-chi/chi v1.5.5
 	github.com/go-chi/cors v1.2.1
+	github.com/google/wire v0.6.0
 	github.com/lib/pq v1.10.9
 	github.com/spf13/viper v1.19.0
 	gorm.io/driver/postgres v1.5.11

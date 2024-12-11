@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"go-farms/configs"
+	handler "go-farms/internal/modules/farm/handlers"
 	"net/http"
 
 	"github.com/go-chi/chi"
@@ -45,8 +46,10 @@ func StartRoutes(r chi.Router) {
 	}))
 
 	r.Route("/api/v1", func(r chi.Router) {
+		farmHandler := handler.GetFarmHandler()
+
 		r.Route("/farm", func(r chi.Router) {
-			// r.Post("/", CreateFarm)
+			r.Post("/", farmHandler.Create)
 			// r.Get("/", GetFarms)
 		})
 	})
