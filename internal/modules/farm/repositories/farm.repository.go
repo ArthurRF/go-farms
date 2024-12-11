@@ -7,7 +7,8 @@ import (
 )
 
 type FarmRepositoryInterface interface {
-	Create(farm *entity.Farm, tx *gorm.DB) (*entity.Farm, error)
+	Create(farm *entity.Farm) (*entity.Farm, error)
+	List() []entity.Farm
 }
 
 type FarmRepository struct {
@@ -20,10 +21,16 @@ func GetFarmRepository(db *gorm.DB) FarmRepositoryInterface {
 	}
 }
 
-func (f *FarmRepository) Create(farm *entity.Farm, tx *gorm.DB) (*entity.Farm, error) {
+func (f *FarmRepository) Create(farm *entity.Farm) (*entity.Farm, error) {
 	err := f.db.Create(farm).Error
 	if err != nil {
 		return nil, err
 	}
 	return farm, nil
+}
+
+func (f *FarmRepository) List() []entity.Farm {
+	var farms []entity.Farm
+	f.db.Preload("Crops").Find(&farms)
+	return farms
 }

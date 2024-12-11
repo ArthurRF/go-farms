@@ -50,7 +50,7 @@ func StartRoutes(r chi.Router) {
 
 		r.Route("/farm", func(r chi.Router) {
 			r.Post("/", farmHandler.Create)
-			// r.Get("/", GetFarms)
+			r.Get("/", farmHandler.List)
 		})
 	})
 }

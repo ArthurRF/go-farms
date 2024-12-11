@@ -10,7 +10,7 @@ type Crop struct {
 	IsInsured   bool      `json:"is_insured" gorm:"not null"`
 	CreatedAt   time.Time `json:"created_at" gorm:"default:CURRENT_TIMESTAMP"`
 
-	Farm Farm `json:"farm" gorm:"foreignKey:FarmID;references:ID"`
+	Farm Farm `json:"-" gorm:"foreignKey:FarmID;references:ID"`
 }
 
 type CropType string

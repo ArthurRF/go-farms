@@ -3,12 +3,11 @@ package service
 import (
 	"go-farms/internal/entity"
 	repository "go-farms/internal/modules/farm/repositories"
-
-	"gorm.io/gorm"
 )
 
 type FarmServiceInterface interface {
-	Create(farm *entity.Farm, tx *gorm.DB) (*entity.Farm, error)
+	Create(farm *entity.Farm) (*entity.Farm, error)
+	List() []entity.Farm
 }
 
 type FarmService struct {
@@ -21,6 +20,10 @@ func GetFarmService(repo repository.FarmRepositoryInterface) FarmServiceInterfac
 	}
 }
 
-func (f *FarmService) Create(farm *entity.Farm, tx *gorm.DB) (*entity.Farm, error) {
-	return f.farmRepository.Create(farm, tx)
+func (f *FarmService) Create(farm *entity.Farm) (*entity.Farm, error) {
+	return f.farmRepository.Create(farm)
+}
+
+func (f *FarmService) List() []entity.Farm {
+	return f.farmRepository.List()
 }
