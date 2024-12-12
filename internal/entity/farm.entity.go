@@ -10,7 +10,7 @@ type Farm struct {
 	Address       string    `json:"address" gorm:"not null"`
 	CreatedAt     time.Time `json:"created_at" gorm:"default:CURRENT_TIMESTAMP"`
 
-	Crops []Crop `json:"crops" gorm:"foreignKey:FarmID;references:ID"`
+	Crops []Crop `json:"crops" gorm:"OnDelete:CASCADE;foreignKey:FarmID;references:ID"`
 }
 
 func (Farm) TableName() string {

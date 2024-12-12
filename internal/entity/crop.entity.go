@@ -23,6 +23,8 @@ const (
 	SOYBEANS CropType = "SOYBEANS"
 )
 
+var CropTypes = []CropType{RICE, BEANS, CORN, COFFEE, SOYBEANS}
+
 func (Crop) TableName() string {
 	return "crops"
 }
