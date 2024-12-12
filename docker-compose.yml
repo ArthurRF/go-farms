@@ -4,6 +4,8 @@ services:
   postgres:
     image: postgres:15
     container_name: postgres-db
+    networks:
+      - mynet
     environment:
       POSTGRES_USER: farmuser
       POSTGRES_PASSWORD: farmpassword
@@ -12,22 +14,40 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   farm-api:
     build:
       context: .
       dockerfile: Dockerfile
     container_name: farm-api
+    networks:
+      - mynet
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
       DB_USER: farmuser
-      DB_PASSWORD: farmpassword
+      DB_PASS: farmpassword
       DB_NAME: farmdb
     ports:
       - "4000:4000"
     depends_on:
+      postgres:
+        condition: service_healthy
+
+  wait_for_db:
+    image: atkrad/wait4x
+    depends_on:
       - postgres
+    command: tcp postgres:5432 -t 30s -i 250ms
 
 volumes:
   postgres_data:
+
+networks:
+  mynet:
+    driver: bridge

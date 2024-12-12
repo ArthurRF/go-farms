@@ -2,6 +2,7 @@ package configs
 
 import (
 	"fmt"
+	"go-farms/internal/entity"
 
 	"github.com/spf13/viper"
 
@@ -21,6 +22,10 @@ func ConnectDB() {
 
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s", host, user, password, dbname, port)
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		panic(err)
+	}
+	err = DB.AutoMigrate(&entity.Farm{}, &entity.Crop{})
 	if err != nil {
 		panic(err)
 	}
