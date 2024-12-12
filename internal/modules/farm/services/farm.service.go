@@ -8,6 +8,7 @@ import (
 type FarmServiceInterface interface {
 	Create(farm *entity.Farm) (*entity.Farm, error)
 	List() []entity.Farm
+	Delete(id int) error
 }
 
 type FarmService struct {
@@ -26,4 +27,8 @@ func (f *FarmService) Create(farm *entity.Farm) (*entity.Farm, error) {
 
 func (f *FarmService) List() []entity.Farm {
 	return f.farmRepository.List()
+}
+
+func (f *FarmService) Delete(id int) error {
+	return f.farmRepository.Delete(id)
 }

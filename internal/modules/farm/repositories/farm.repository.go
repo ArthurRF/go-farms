@@ -9,6 +9,7 @@ import (
 type FarmRepositoryInterface interface {
 	Create(farm *entity.Farm) (*entity.Farm, error)
 	List() []entity.Farm
+	Delete(id int) error
 }
 
 type FarmRepository struct {
@@ -33,4 +34,12 @@ func (f *FarmRepository) List() []entity.Farm {
 	var farms []entity.Farm
 	f.db.Preload("Crops").Find(&farms)
 	return farms
+}
+
+func (f *FarmRepository) Delete(id int) error {
+	err := f.db.Where("farm_id = ?", id).Delete(&entity.Crop{}).Error
+	if err != nil {
+		return err
+	}
+	return f.db.Delete(&entity.Farm{}, id).Error
 }
